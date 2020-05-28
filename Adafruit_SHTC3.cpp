@@ -30,13 +30,13 @@
 #include "Adafruit_SHTC3.h"
 
 /*!
- * @brief  SHTC3 constructor using i2c
- * @param  *theWire
- *         optional wire
+ * @brief  SHTC3 constructor
  */
-Adafruit_SHTC3::Adafruit_SHTC3(void) {
-}
+Adafruit_SHTC3::Adafruit_SHTC3(void) {}
 
+/*!
+ * @brief  SHTC3 destructor
+ */
 Adafruit_SHTC3::~Adafruit_SHTC3(void) {
   if (temp_sensor) {
     delete temp_sensor;
@@ -49,7 +49,7 @@ Adafruit_SHTC3::~Adafruit_SHTC3(void) {
 /**
  * Initialises the I2C bus, and assigns the I2C address to us.
  *
- * @param i2caddr   The I2C address to use for the sensor.
+ * @param theWire   The I2C bus to use, defaults to &Wire
  *
  * @return True if initialisation was successful, otherwise False.
  */
@@ -63,7 +63,7 @@ bool Adafruit_SHTC3::begin(TwoWire *theWire) {
   if (!i2c_dev->begin()) {
     return false;
   }
-  
+
   reset();
   sleep(false);
 
@@ -76,6 +76,11 @@ bool Adafruit_SHTC3::begin(TwoWire *theWire) {
   return true;
 }
 
+/**
+ * @brief Brings the SHTC3 in or out of sleep mode
+ *
+ * @param sleepmode If true, go into sleep mode. Else, wakeup
+ */
 void Adafruit_SHTC3::sleep(bool sleepmode) {
   if (sleepmode) {
     writeCommand(SHTC3_SLEEP);
@@ -85,10 +90,13 @@ void Adafruit_SHTC3::sleep(bool sleepmode) {
   }
 }
 
-void Adafruit_SHTC3::lowPowerMode(bool readmode) {
-  _lpMode = readmode;
-}
-
+/**
+ * @brief Tells the SHTC3 to read future data in low power (fast) or normal
+ * (precise)
+ *
+ * @param readmode If true, use low power mode for reads
+ */
+void Adafruit_SHTC3::lowPowerMode(bool readmode) { _lpMode = readmode; }
 
 /**
  * Gets the ID register contents.
@@ -140,7 +148,7 @@ bool Adafruit_SHTC3::getEvent(sensors_event_t *humidity,
     delay(13);
   }
 
-  while (! i2c_dev->read(readbuffer, sizeof(readbuffer))) {
+  while (!i2c_dev->read(readbuffer, sizeof(readbuffer))) {
     delay(1);
   }
 
@@ -188,8 +196,6 @@ void Adafruit_SHTC3::fillHumidityEvent(sensors_event_t *humidity,
   humidity->timestamp = timestamp;
   humidity->relative_humidity = _humidity;
 }
-
-
 
 /**
  * @brief Gets the Adafruit_Sensor object for the SHTC3's humidity sensor
@@ -288,7 +294,8 @@ bool Adafruit_SHTC3::writeCommand(uint16_t command) {
  *
  * @param cmd   The 16-bit command ID to send.
  */
- bool Adafruit_SHTC3::readCommand(uint16_t command, uint8_t *buffer, uint8_t num_bytes) {
+bool Adafruit_SHTC3::readCommand(uint16_t command, uint8_t *buffer,
+                                 uint8_t num_bytes) {
   uint8_t cmd[2];
 
   cmd[0] = command >> 8;
@@ -296,7 +303,6 @@ bool Adafruit_SHTC3::writeCommand(uint16_t command) {
 
   return i2c_dev->write_then_read(cmd, 2, buffer, num_bytes);
 }
-
 
 /**
  * Performs a CRC8 calculation on the supplied values.

@@ -25,20 +25,27 @@
 #include <Adafruit_Sensor.h>
 
 #define SHTC3_DEFAULT_ADDR 0x70 /**< SHTC3 I2C Address */
-#define SHTC3_NORMAL_MEAS_TFIRST_STRETCH 0x7CA2 /**< Normal measurement, temp first with Clock Stretch Enabled */
-#define SHTC3_LOWPOW_MEAS_TFIRST_STRETCH 0x6458 /**< Low power measurement, temp first with Clock Stretch Enabled */
-#define SHTC3_NORMAL_MEAS_HFIRST_STRETCH 0x5C24 /**< Normal measurement, hum first with Clock Stretch Enabled */
-#define SHTC3_LOWPOW_MEAS_HFIRST_STRETCH 0x44DE /**< Low power measurement, hum first with Clock Stretch Enabled */
+#define SHTC3_NORMAL_MEAS_TFIRST_STRETCH                                       \
+  0x7CA2 /**< Normal measurement, temp first with Clock Stretch Enabled */
+#define SHTC3_LOWPOW_MEAS_TFIRST_STRETCH                                       \
+  0x6458 /**< Low power measurement, temp first with Clock Stretch Enabled */
+#define SHTC3_NORMAL_MEAS_HFIRST_STRETCH                                       \
+  0x5C24 /**< Normal measurement, hum first with Clock Stretch Enabled */
+#define SHTC3_LOWPOW_MEAS_HFIRST_STRETCH                                       \
+  0x44DE /**< Low power measurement, hum first with Clock Stretch Enabled */
 
-#define SHTC3_NORMAL_MEAS_TFIRST 0x7866 /**< Normal measurement, temp first with Clock Stretch disabled */
-#define SHTC3_LOWPOW_MEAS_TFIRST 0x609C /**< Low power measurement, temp first with Clock Stretch disabled */
-#define SHTC3_NORMAL_MEAS_HFIRST 0x58E0 /**< Normal measurement, hum first with Clock Stretch disabled */
-#define SHTC3_LOWPOW_MEAS_HFIRST 0x401A /**< Low power measurement, hum first with Clock Stretch disabled */
+#define SHTC3_NORMAL_MEAS_TFIRST                                               \
+  0x7866 /**< Normal measurement, temp first with Clock Stretch disabled */
+#define SHTC3_LOWPOW_MEAS_TFIRST                                               \
+  0x609C /**< Low power measurement, temp first with Clock Stretch disabled */
+#define SHTC3_NORMAL_MEAS_HFIRST                                               \
+  0x58E0 /**< Normal measurement, hum first with Clock Stretch disabled */
+#define SHTC3_LOWPOW_MEAS_HFIRST                                               \
+  0x401A /**< Low power measurement, hum first with Clock Stretch disabled */
 
-
-#define SHTC3_READID 0xEFC8   /**< Read Out of ID Register */
-#define SHTC3_SOFTRESET 0x805D    /**< Soft Reset */
-#define SHTC3_SLEEP 0xB098    /**< Enter sleep mode */
+#define SHTC3_READID 0xEFC8    /**< Read Out of ID Register */
+#define SHTC3_SOFTRESET 0x805D /**< Soft Reset */
+#define SHTC3_SLEEP 0xB098     /**< Enter sleep mode */
 #define SHTC3_WAKEUP 0x3517    /**< Wakeup mode */
 
 static uint8_t crc8(const uint8_t *data, int len);
@@ -82,8 +89,6 @@ private:
   Adafruit_SHTC3 *_theSHTC3 = NULL;
 };
 
-
-
 /**
  * Driver for the Adafruit SHTC3 Temperature and Humidity breakout board.
  */
@@ -109,12 +114,12 @@ protected:
   uint16_t _sensorid_humidity; ///< ID number for humidity
   uint16_t _sensorid_temp;     ///< ID number for temperature
 
-  Adafruit_I2CDevice *i2c_dev = NULL; ///< Pointer to I2C bus interface
+  Adafruit_I2CDevice *i2c_dev = NULL;      ///< Pointer to I2C bus interface
   Adafruit_SHTC3_Temp *temp_sensor = NULL; ///< Temp sensor data object
   Adafruit_SHTC3_Humidity *humidity_sensor =
       NULL; ///< Humidity sensor data object
 
- private:
+private:
   bool _lpMode = false;
   bool writeCommand(uint16_t cmd);
   bool readCommand(uint16_t command, uint8_t *buffer, uint8_t num_bytes);
