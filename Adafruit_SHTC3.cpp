@@ -50,17 +50,18 @@ Adafruit_SHTC3::~Adafruit_SHTC3(void) {
  * Initialises the I2C bus, and assigns the I2C address to us.
  *
  * @param theWire   The I2C bus to use, defaults to &Wire
+ * @param dontInitialize Whether initialize the given TwoWire object.
  *
  * @return True if initialisation was successful, otherwise False.
  */
-bool Adafruit_SHTC3::begin(TwoWire *theWire) {
+bool Adafruit_SHTC3::begin(TwoWire *theWire, const bool dontInitialize) {
   if (i2c_dev) {
     delete i2c_dev; // remove old interface
   }
 
   i2c_dev = new Adafruit_I2CDevice(SHTC3_DEFAULT_ADDR, theWire);
 
-  if (!i2c_dev->begin()) {
+  if (!i2c_dev->begin(true, dontInitialize)) {
     return false;
   }
 
