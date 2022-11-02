@@ -29,6 +29,8 @@
 
 #include "Adafruit_SHTC3.h"
 
+static uint8_t crc8(const uint8_t *data, int len);
+
 /*!
  * @brief  SHTC3 constructor
  */

@@ -48,8 +48,6 @@
 #define SHTC3_SLEEP 0xB098     /**< Enter sleep mode */
 #define SHTC3_WAKEUP 0x3517    /**< Wakeup mode */
 
-static uint8_t crc8(const uint8_t *data, int len);
-
 class Adafruit_SHTC3;
 
 /**
