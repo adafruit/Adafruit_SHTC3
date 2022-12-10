@@ -66,8 +66,11 @@ bool Adafruit_SHTC3::begin(TwoWire *theWire) {
     return false;
   }
 
-  reset();
+  // In some cases, the processor which shtc3 connected will restart. 
+  // And shtc3 maybe in sleep mode before restart, but shtc3 cannot be
+  // woken up in sleep mode, so wake up chip before reset.
   sleep(false);
+  reset();
 
   // read the ID
   if ((readID() & 0x083F) != 0x807) {
