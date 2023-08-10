@@ -66,8 +66,8 @@ bool Adafruit_SHTC3::begin(TwoWire *theWire) {
     return false;
   }
 
-  reset();
   sleep(false);
+  reset();
 
   // read the ID
   if ((readID() & 0x083F) != 0x807) {
