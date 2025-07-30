@@ -150,7 +150,8 @@ bool Adafruit_SHTC3::getEvent(sensors_event_t *humidity,
     delay(13);
   }
 
-  while (!i2c_dev->read(readbuffer, sizeof(readbuffer))) {
+  uint32_t start_read_millis = millis();
+  while (!i2c_dev->read(readbuffer, sizeof(readbuffer)) && millis() - start_read_millis <= 1000UL) {
     delay(1);
   }
 
